@@ -112,6 +112,36 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
 });
 
+// Clear all data endpoint (for development/testing)
+app.delete('/api/clear-all-data', (req, res) => {
+  db.serialize(() => {
+    // Delete all data from all tables
+    db.run('DELETE FROM recurring_task_completions', (err) => {
+      if (err) console.error('Error clearing recurring_task_completions:', err);
+    });
+    
+    db.run('DELETE FROM recurring_tasks', (err) => {
+      if (err) console.error('Error clearing recurring_tasks:', err);
+    });
+    
+    db.run('DELETE FROM weekly_progress', (err) => {
+      if (err) console.error('Error clearing weekly_progress:', err);
+    });
+    
+    db.run('DELETE FROM tasks', (err) => {
+      if (err) console.error('Error clearing tasks:', err);
+    });
+    
+    db.run('DELETE FROM users', (err) => {
+      if (err) {
+        console.error('Error clearing users:', err);
+        return res.status(500).json({ error: 'Error clearing data' });
+      }
+      res.json({ message: 'All data cleared successfully' });
+    });
+  });
+});
+
 // Register user
 app.post('/api/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -537,13 +567,25 @@ app.get('/api/recurring-tasks', authenticateToken, (req, res) => {
   });
 });
 
-// Serve static files explicitly
+// Serve static files explicitly with proper MIME types
 app.get('/styles.css', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'styles.css'));
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(path.join(__dirname, 'public', 'styles.css'), (err) => {
+    if (err) {
+      console.error('Error serving styles.css:', err);
+      res.status(404).send('CSS file not found');
+    }
+  });
 });
 
 app.get('/script.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'script.js'));
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'public', 'script.js'), (err) => {
+    if (err) {
+      console.error('Error serving script.js:', err);
+      res.status(404).send('JS file not found');
+    }
+  });
 });
 
 // Serve the frontend
