@@ -16,8 +16,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Database setup
-const db = new sqlite3.Database('productivity.db');
+// Database setup - use in-memory database for Vercel deployment
+const dbPath = process.env.NODE_ENV === 'production' ? ':memory:' : 'productivity.db';
+const db = new sqlite3.Database(dbPath);
 
 // Initialize database tables
 db.serialize(() => {
@@ -100,6 +101,11 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Routes
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Productivity Quest API is running' });
+});
 
 // Register user
 app.post('/api/register', async (req, res) => {
