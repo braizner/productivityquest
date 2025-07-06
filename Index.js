@@ -107,6 +107,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Productivity Quest API is running' });
 });
 
+// Test endpoint to check if server is responding
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
+});
+
 // Register user
 app.post('/api/register', async (req, res) => {
   const { username, email, password } = req.body;
