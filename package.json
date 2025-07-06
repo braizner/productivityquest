@@ -1,0 +1,30 @@
+{
+  "name": "gamified-productivity-server",
+  "version": "1.0.0",
+  "main": "Index.js",
+  "scripts": {
+    "start": "node Index.js",
+    "build": "echo 'No build step required'",
+    "dev": "nodemon Index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["productivity", "gamification", "tasks", "points"],
+  "author": "",
+  "license": "ISC",
+  "description": "A gamified productivity website where users can manage tasks and earn points",
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.6",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
