@@ -18,5 +18,10 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "Index.js": {
+      "includeFiles": "public/**"
+    }
   }
 } 
