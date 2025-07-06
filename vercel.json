@@ -7,14 +7,9 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/Index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/Index.js"
-    }
+    { "src": "/(styles\\.css|script\\.js|favicon\\.ico|logo\\.png)", "dest": "/public/$1" },
+    { "src": "/api/(.*)", "dest": "/Index.js" },
+    { "src": "/(.*)", "dest": "/Index.js" }
   ],
   "env": {
     "NODE_ENV": "production"
